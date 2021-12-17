@@ -28,10 +28,11 @@ class TodoController extends Controller
 
     public function update(Request $request)
     {
-        $param = ['id' => $request->id];
+        /*$param = ['id' => $request->id];*/
         $param = [
             'content' => $request->content,
         ];
+        /*DB::select('select * from todo where id = :id', $param);*/
         DB::update('update  todo set content=:content', $param);
         return redirect('/');
     }
