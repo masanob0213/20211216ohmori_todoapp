@@ -12,6 +12,7 @@ class TodoController extends Controller
         $items = DB::select('select * from todo');
         return view('index', ['items' => $items]);
     }
+    /*トップページ*/
 
     public function create(Request $request)
     {
@@ -21,6 +22,17 @@ class TodoController extends Controller
             'updated_at' => $request->updated_at,*/
         ];
         DB::insert('insert into todo (content) values (:content)', $param);
+        return redirect('/');
+    }
+    /*追加*/
+
+    public function update(Request $request)
+    {
+        $param = ['id' => $request->id];
+        $param = [
+            'content' => $request->content,
+        ];
+        DB::update('update  todo set content=:content', $param);
         return redirect('/');
     }
 }

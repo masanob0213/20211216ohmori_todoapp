@@ -79,12 +79,15 @@
         <th>
           {{$item->updated_at}}
         </th>
-        <th>
-          {{$item->content}}
-        </th>
-        <th>
-          <a href="">更新</a>
-        </th>
+        <form action="todo/update" method="POST">
+          @csrf
+          <th>
+            <input type="text" id="" name="content" value="{{$item->content}}">
+          </th>
+          <th>
+            <button>更新</button>
+          </th>
+        </form>
         <th>
           <a href="">削除</a>
         </th>
