@@ -35,4 +35,10 @@ class TodoController extends Controller
         DB::update('update todo set content = :content where id =:id', $param);
         return redirect('/');
     }
+    public function delete(Request $request)
+    {
+        $param = ['id' => $request->id];
+        DB::delete('delete from todo where id =:id', $param);
+        return redirect('/');
+    }
 }

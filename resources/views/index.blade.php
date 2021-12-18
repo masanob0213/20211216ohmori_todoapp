@@ -89,9 +89,13 @@
             <button>更新</button>
           </th>
         </form>
-        <th>
-          <a href="">削除</a>
-        </th>
+        <form action="todo/delete" method="POST">
+          @csrf
+          <input type="hidden" name="id" value="{{$item->id}}">
+          <th>
+            <button>削除</button>
+          </th>
+        </form>
       </tr>
     </table>
     @endforeach
