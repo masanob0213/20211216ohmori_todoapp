@@ -81,8 +81,9 @@
         </th>
         <form action="todo/update" method="POST">
           @csrf
+          <input type="hidden" name="id" value="{$item->id}}">
           <th>
-            <input type="text" id="" name="content" value="{{$item->content}}">
+            <input type=" text" name="content" value="{{$item->content}}">
           </th>
           <th>
             <button>更新</button>
