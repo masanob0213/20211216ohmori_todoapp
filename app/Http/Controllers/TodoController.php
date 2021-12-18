@@ -32,7 +32,7 @@ class TodoController extends Controller
             'id' => $request->id,
             'content' => $request->content,
         ];
-        DB::update('update todo set content=:content where id =:id', $param);
+        DB::update('update todo set content = :content where id =:id', $param);
         return redirect('/');
     }
 }
