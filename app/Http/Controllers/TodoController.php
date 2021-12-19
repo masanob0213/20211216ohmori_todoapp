@@ -18,8 +18,7 @@ class TodoController extends Controller
     {
         $param = [
             'content' => $request->content,
-            /*'created_at' => $request->created_at,
-            'updated_at' => $request->updated_at,*/
+            /*'created_at' => $request->created_at,*/
         ];
         DB::insert('insert into todo (content) values (:content)', $param);
         return redirect('/');
@@ -31,14 +30,17 @@ class TodoController extends Controller
         $param = [
             'id' => $request->id,
             'content' => $request->content,
+            'updated_at' => $request->updated_at,
         ];
-        DB::update('update todo set content = :content where id =:id', $param);
+        DB::update('update todo set content = :content,updated_at = :updated_at where id =:id', $param);
         return redirect('/');
     }
+    /*更新*/
     public function delete(Request $request)
     {
         $param = ['id' => $request->id];
         DB::delete('delete from todo where id =:id', $param);
         return redirect('/');
     }
+    /*削除*/
 }

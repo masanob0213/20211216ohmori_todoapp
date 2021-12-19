@@ -17,7 +17,7 @@ class CreateTodoTable extends Migration
             $table->id()->nullable(false);
             $table->string('content', 191)->nullable(false);
             $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('updated_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->nullable();
         });
     }
 

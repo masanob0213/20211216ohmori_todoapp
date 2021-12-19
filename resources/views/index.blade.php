@@ -6,6 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+
   <style>
     body {
       background-color: #2d197c;
@@ -19,25 +20,44 @@
       background-color: white;
       width: 50vw;
       padding: 20px;
-      height: 30%;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       border-radius: 10px;
     }
 
-    .title {
-      margin: 0;
+    .title-text {
+      font-weight: bold;
+      font-size: 24px;
+      margin-bottom: 0px;
     }
 
-    .todo {
-      width: 100%;
-      margin: 10px;
+    .add-form {
       text-align: center;
+      padding: 0px;
+      margin-bottom: 10px;
+      vertical-align: baseline;
     }
 
-    .todo-create {
-      width: 100%;
+    .add-text {
+      border-radius: 5px;
+      width: 80%;
+      border: 1px solid #ccc;
+    }
+
+    .add-botten {
+      border-radius: 5px;
+      color: #dc70fa;
+      border: 2px solid #dc70fa;
+      background-color: white;
+      padding: 5px 10px;
+      cursor: pointer;
+      transition: 0.4s;
+    }
+
+    .add-botten:hover {
+      background-color: #dc70fa;
+      color: white;
     }
 
     .text-add {
@@ -45,62 +65,111 @@
       border: 1px solid #ccc;
     }
 
-    .item {
+    .items {
       width: 100%;
-      display: flex;
-      justify-content: space-between;
+      text-align: center;
     }
 
-    .item-text {
+    .todo-list {
+      margin: 0;
       width: 100%;
+    }
+
+    .items-text {
+      height: 50px;
+    }
+
+    .update-text {
+      border-radius: 5px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      width: 100%;
+    }
+
+    .update-botten {
+      border: 2px solid #fa9770;
+      font-size: 12px;
+      color: #fa9770;
+      background-color: #fff;
+      font-weight: bold;
+      padding: 8px 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.4s;
+    }
+
+    .update-botten:hover {
+      background-color: #fa9770;
+      border-color: #fa9770;
+      color: #fff;
+    }
+
+
+    .delete-botten {
+      border: 2px solid #71fadc;
+      font-size: 12px;
+      color: #71fadc;
+      background-color: #fff;
+      font-weight: bold;
+      padding: 8px 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.4s;
+    }
+
+    .delete-botten:hover {
+      background-color: #71fadc;
+      border-color: #71fadc;
+      color: #fff;
     }
   </style>
 </head>
 
 <body>
   <div class="card">
-    <h1 class="title">Todo List</h1>
-    <div class="todo">
+    <h1 class="title-text">Todo List</h1>
+    <div class="add-form">
       <form action="/todo/create" method="POST">
         @csrf
-        <input type="text" name="content">
-        <button>追加</button>
+        <input class="add-text" type="text" name="content">
+        <button class="add-botten">追加</button>
       </form>
     </div>
-    <dl class="item">
-      <dt class="item-text">作成日</dt>
-      <dt class="item-text">タスク名</dt>
-      <dt class="item-text">更新</dt>
-      <dt class="item-text">削除</dt>
-    </dl>
-    @foreach ($items as $item)
-    <table class=todo-list>
-      <tr>
-        <th>
-          {{$item->updated_at}}
-        </th>
-        <form action="todo/update" method="POST">
-          @csrf
-          <input type="hidden" name="id" value="{{$item->id}}">
-          <th>
-            <input type=" text" name="content" value="{{$item->content}}">
-          </th>
-          <th>
-            <button>更新</button>
-          </th>
-        </form>
-        <form action="todo/delete" method="POST">
-          @csrf
-          <input type="hidden" name="id" value="{{$item->id}}">
-          <th>
-            <button>削除</button>
-          </th>
-        </form>
-      </tr>
-    </table>
-    @endforeach
-  </div>
-  </div>
+    <div class="items">
+      <table class=todo-list>
+        <tr class="items-text">
+          <th class="item-created">作成日</th>
+          <th class="item-task_name">タスク名</th>
+          <th class="item-update">更新</th>
+          <th class="item-delete">削除</th>
+        </tr>
+        @foreach ($items as $item)
+        <tr>
+          <td>
+            {{$item->created_at}}
+          </td>
+          <td>
+            <form action="todo/update" method="POST">
+              @csrf
+              <input type="hidden" name="id" value="{{$item->id}}">
+              <input type="hidden" name="updated_at" value="{{$item->updated_at}}">
+              <input class="update-text" type=" text" name="content" value="{{$item->content}}">
+          </td>
+          <td>
+            <button class="update-botten">更新</button>
+          </td>
+          </form>
+          <td>
+            <form action="todo/delete" method="POST">
+              @csrf
+              <input type="hidden" name="id" value="{{$item->id}}">
+              <button class="delete-botten">削除</button>
+          </td>
+          </form>
+        </tr>
+        @endforeach
+      </table>
+    </div>
 </body>
 
 </html>
