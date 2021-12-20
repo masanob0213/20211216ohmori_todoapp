@@ -8,6 +8,16 @@
   <title>Document</title>
 
   <style>
+    p {
+      color: red;
+      font-weight: bold;
+    }
+
+    .flash_message {
+      font-weight: bold;
+      text-align: center;
+    }
+
     body {
       background-color: #2d197c;
       height: 100vh;
@@ -43,6 +53,7 @@
       border-radius: 5px;
       width: 80%;
       border: 1px solid #ccc;
+      padding: 7px;
     }
 
     .add-botten {
@@ -53,6 +64,7 @@
       padding: 5px 10px;
       cursor: pointer;
       transition: 0.4s;
+      white-space: nowrap;
     }
 
     .add-botten:hover {
@@ -60,17 +72,12 @@
       color: white;
     }
 
-    .text-add {
-      width: 80%;
-      border: 1px solid #ccc;
-    }
-
     .items {
       width: 100%;
       text-align: center;
     }
 
-    .todo-list {
+    .items-table {
       margin: 0;
       width: 100%;
     }
@@ -83,7 +90,13 @@
       border-radius: 5px;
       font-size: 14px;
       border: 1px solid #ccc;
-      width: 100%;
+      width: 80%;
+      margin: 0px 10px;
+      padding: 10px;
+    }
+
+    .update-botten-table {
+      white-space: nowrap;
     }
 
     .update-botten {
@@ -93,15 +106,21 @@
       background-color: #fff;
       font-weight: bold;
       padding: 8px 16px;
+      margin-left: 10px;
       border-radius: 5px;
       cursor: pointer;
       transition: 0.4s;
+
     }
 
     .update-botten:hover {
       background-color: #fa9770;
       border-color: #fa9770;
       color: #fff;
+    }
+
+    .delete-botten-table {
+      white-space: nowrap;
     }
 
 
@@ -127,21 +146,32 @@
 
 <body>
   <div class="card">
+    <!-- フラッシュメッセージ -->
+    @if (session('flash_message'))
+    <div class="flash_message">
+      {{ session('flash_message') }}
+    </div>
+    @endif
     <h1 class="title-text">Todo List</h1>
     <div class="add-form">
       <form action="/todo/create" method="POST">
         @csrf
         <input class="add-text" type="text" name="content">
         <button class="add-botten">追加</button>
+        @error('content')
+        <tr>
+          <p>※タスク名は20文字以内です。</p>
+        </tr>
+        @enderror
       </form>
     </div>
     <div class="items">
-      <table class=todo-list>
+      <table class=items-table>
         <tr class="items-text">
-          <th class="item-created">作成日</th>
-          <th class="item-task_name">タスク名</th>
-          <th class="item-update">更新</th>
-          <th class="item-delete">削除</th>
+          <th>作成日</th>
+          <th>タスク名</th>
+          <th>更新</th>
+          <th>削除</th>
         </tr>
         @foreach ($items as $item)
         <tr>
@@ -152,14 +182,13 @@
             <form action="todo/update" method="POST">
               @csrf
               <input type="hidden" name="id" value="{{$item->id}}">
-              <input type="hidden" name="updated_at" value="{{$item->updated_at}}">
               <input class="update-text" type=" text" name="content" value="{{$item->content}}">
           </td>
-          <td>
+          <td class="update-botten-table">
             <button class="update-botten">更新</button>
           </td>
           </form>
-          <td>
+          <td class="delete-botten-table">
             <form action="todo/delete" method="POST">
               @csrf
               <input type="hidden" name="id" value="{{$item->id}}">
